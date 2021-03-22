@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "tbba",
+  "projects": {
+    "tbba": {
+      "root": "apps/tbba",
+      "sourceRoot": "apps/tbba/src",
+      "projectType": "application",
+      "prefix": "tbba",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/tbba",
+            "main": "apps/tbba/src/main.ts",
+            "tsConfig": "apps/tbba/tsconfig.app.json",
+            "assets": ["apps/tbba/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/tbba/src/environments/environment.ts",
+                  "with": "apps/tbba/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "tbba:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/tbba/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/tbba"],
+          "options": {
+            "jestConfig": "apps/tbba/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  }
+}
